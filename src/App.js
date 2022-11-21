@@ -16,13 +16,15 @@ import reducers from './redux/reducers';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
+import reactotron from '../ReactotronConfig';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
 const Stack = createNativeStackNavigator();
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducers, applyMiddleware(sagaMiddleware));
+const store = createStore(reducers, compose(applyMiddleware(sagaMiddleware),
+  (__DEV__ ? reactotron.createEnhancer() : '')));
 sagaMiddleware.run(rootSaga);
 
 

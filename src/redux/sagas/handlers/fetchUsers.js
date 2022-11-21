@@ -6,7 +6,7 @@ function* handleGetUsers() {
         const users = yield call(fetchGetUsers);
         yield put({type: "GET_USERS_SUCCESS", users: users});
     } catch(err) {
-        yield put({type: "GET_USERS_FAILED", message: err.message});
+        yield put({type: "GET_USERS_FAILED", error: err.message});
     }
 }
 

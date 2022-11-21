@@ -6,6 +6,8 @@ import { getUsers } from '../redux/actions';
 const HomeScreen = () => {
     const dispatch = useDispatch();
     const users = useSelector(state => state.users.users);
+    const loading = useSelector(state => state.users.loading);
+    const error = useSelector(state => state.users.error);
     useEffect(() => {
         dispatch(getUsers());
     }, []);
@@ -13,20 +15,22 @@ const HomeScreen = () => {
     return (
         <View>
             <Text style={styles.text}>Home</Text>
-            <FlatList
-                data={users}
-                renderItem={({ item }) => (
-                    <Text style={styles.text}>{item.name}</Text>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-            />
+
+            {loading && <Text style={styles.text}>Loading....</Text>}
+
+            {error && !loading && <Text style={styles.text}>{error}</Text>}
+
+            {users && users.map((user, i) => (
+                <Text key={i} style={styles.text}>{user.name}</Text>
+            ))}
+
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     text: {
-        color: '#000',
+        color: '#0000FF',
     },
 });
 
